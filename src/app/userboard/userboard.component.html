@@ -1,0 +1,115 @@
+<div class="mx-20 mt-20 w-Full p-4 shadow-md rounded-lg border-t-2 border-teal-400">
+    <div class="flex justify-between pb-4">
+        <p class="font-bold text-xl">Userboard</p>
+    </div>
+
+    <div class="grid gap-3  grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="accordion-collapse-body-1">
+
+
+        <div
+            class="flex border items-center rounded-md cursor-pointer transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
+            <div class="w-16 p-2 shrink-0">
+                <p class="h-12 w-12">​⭐​​ </p>
+            </div>
+            <div class="p-2">
+                <p class="font-semibold text-lg">
+        <a  [routerLink]="['/modify']" class="text-gray-600 hover:underline hover:text-gray-400" >
+            Profil
+          </a>
+
+                </p>
+
+                <span class="text-gray-600">
+
+                  <a  [routerLink]="['/modify']" class="hover:underline hover:text-gray-400" >
+              Modifiez votre mot de passe
+            </a>
+                </span>
+            </div>
+          </div>
+
+        <div
+            class="flex border items-center rounded-md cursor-pointer transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
+            <div class="w-16 p-2 shrink-0">
+                <p class="h-12 w-12"> 🔑​ </p>
+            </div>
+            <div class="p-2">
+                <p class="font-semibold text-lg">
+
+          <a  [routerLink]="['/forgetpswd']" class="text-gray-600 hover:underline hover:text-gray-400" >
+            Mot de passe
+          </a>
+
+                </p>
+                <span class="text-gray-600">
+                     <a  [routerLink]="['/forgetpswd']" class="hover:underline hover:text-gray-400" >
+               Mot de passe oublié
+            </a>
+                </span>
+            </div>
+          </div>
+
+        <div
+            class="flex border items-center rounded-md cursor-pointer transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
+            <div class="w-16 p-2 shrink-0">
+                <p class="h-12 w-12">📁​​ </p>
+            </div>
+            <div class="p-2">
+                <p class="font-semibold text-lg">
+      <a  [routerLink]="['/upload']" class="text-gray-600 hover:underline hover:text-gray-400" >
+           Image
+          </a>
+
+                </p>
+                <span class="text-gray-600">
+       <a  [routerLink]="['/upload']" class="hover:underline hover:text-gray-400" >
+            Modifiez/Completez vos images
+            </a>
+
+                </span>
+            </div>
+          </div>
+
+           <div
+            class="flex border items-center rounded-md cursor-pointer transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
+            <div class="w-16 p-2 shrink-0">
+                 <p class="h-12 w-12"> ☀️​​​ </p>
+              </div>
+            <div class="p-2">
+                <p class="font-semibold text-lg">
+
+           <a  [routerLink]="['/info-update']" class="text-gray-600 hover:underline hover:text-gray-400" >
+           Profil Modifier
+           </a>
+                </p>
+                <span class="text-gray-600">
+                   <a  [routerLink]="['/info-update']" class="hover:underline hover:text-gray-400" >
+          Mettre à jour votre profil
+            </a>
+                </span>
+            </div>
+          </div>
+
+        <div
+            class="flex border items-center rounded-md cursor-pointer transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
+            <div class="w-16 p-2 shrink-0">
+                 <p class="h-12 w-12"> 📀​​​ </p>
+              </div>
+            <div class="p-2">
+                <p class="font-semibold text-lg">
+
+           <a  [routerLink]="['/board']" class="text-gray-600 hover:underline hover:text-gray-400" >
+           Profil
+           </a>
+                </p>
+                <span class="text-gray-600">
+                   <a  [routerLink]="['/board']" class="hover:underline hover:text-gray-400" >
+          Voir votre profil
+            </a>
+                </span>
+            </div>
+          </div>
+
+
+    </div>
+</div>

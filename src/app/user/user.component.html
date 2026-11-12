@@ -1,0 +1,31 @@
+<div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white text-gray-800 mt-8 mb-8 p-6 rounded-lg">
+      @if (currentUser && currentUser.role === 'ADMIN') {
+<h3 class="text-2xl font-bold mb-4 mt-3">Liste des utilisateurs</h3>
+<div>
+<ul>
+  @for (user of myUsers(); track user.id) {
+    <li class="mb-5">
+      {{ user.name }} ({{ user.email }})
+      <!-- 👇 Appel de la méthode avec l'id de l'utilisateur -->
+      <button (click)="onDeleteUser(user.id)" class="ml-5 text-red-600 cursor-pointer">
+        Supprimer
+      </button>
+
+          <button (click)="onUpdateUser(user.id)" class="ml-5  text-blue-600 cursor-pointer">
+        Update
+      </button>
+    </li>
+  } @empty {
+    <li>Aucun utilisateur trouvé.</li>
+  }
+</ul>
+
+  <app-user-form></app-user-form>
+</div>
+} @else {
+  <!-- Optionnel : Un spinner de chargement le temps que AuthState.init() réponde -->
+  <div class="loading">Vérification des droits d'accès...</div>
+}
+    </div>
+</div>

@@ -1,0 +1,375 @@
+
+<div id="content" role="main" class="w-full  max-w-md mx-auto p-6">
+    <div class="mt-7 bg-white  rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700 border-2 border-red-300">
+      <div class="p-4 sm:p-7">
+        <div class="text-center">
+          <h1 class="block text-2xl font-bold text-red-800 dark:text-white">Register</h1>
+
+        </div>
+
+            <div class="mt-5">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+             <div class="grid gap-y-4">
+         <div>
+        <label for="civility-select" class="block text-sm font-medium text-gray-700">Civilité :</label>
+
+        <!-- Select lié au formControlName -->
+        <select id="civility-select" formControlName="civility" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          <!-- Utilisation d'un alias 'item' pour éviter les conflits de nom -->
+          @for (item of civils; track item.name) {
+            <option [value]="item.name">{{ item.name }}</option>
+          }
+        </select>
+      </div>
+
+              <div>
+                <label for="name" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Name</label>
+                <div class="relative">
+                  <input type="text"
+                  formControlName="name"
+                  name="name"
+                  id="name"
+                  class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="name-error"
+                  [ngClass]="{
+                'border-red-500': getErrorMessage('name'),
+                'border-gray-200': !getErrorMessage('name')
+                  }"
+
+                />
+                </div>
+               <p *ngIf="getErrorMessage('name')" class="text-xs text-red-600 mt-1">
+             {{ getErrorMessage('name') }}
+                 </p>
+              </div>
+
+              <div>
+                <label for="surname" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Surname</label>
+                <div class="relative">
+                  <input type="text"
+                   formControlName="surname"
+                   name="surname"
+                   id="surname"
+                   class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="surname-error"
+                  [ngClass]="{
+                  'border-red-500': getErrorMessage('surname'),
+                  'border-gray-200': !getErrorMessage('surname')
+                  }"
+
+                  />
+                  </div>
+                 <p
+                *ngIf="getErrorMessage('surname')"
+                class="text-xs text-red-600 mt-2"
+                id="surname-error"
+                 >
+                {{ getErrorMessage('surname') }}
+                </p>
+              </div>
+
+                       <div>
+        <label for="sex-select" class="block text-sm font-medium text-gray-700">sexe :</label>
+
+        <!-- Select lié au formControlName -->
+        <select id="sex-select" formControlName="sex" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          <!-- Utilisation d'un alias 'item' pour éviter les conflits de nom -->
+          @for (item of sexe; track item.name) {
+            <option [value]="item.name">{{ item.name }}</option>
+          }
+        </select>
+      </div>
+
+
+                <div>
+            <label for="datepicker"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Birthdate
+              </label>
+
+              <div class="relative">
+            <div class="relative max-w-sm">
+              <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
+              </div>
+
+                <input
+                  datepicker
+                  id="default-datepicker"
+                   class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-3 py-2.5 shadow-xs placeholder:text-body"
+                  formControlName="birthdate"
+                  name="birthdate"
+                  (input)="onDateChange($event)"
+                  type="text"
+                  placeholder="Sélectionnez une date"
+                  [ngClass]="{
+                  'border-red-500': getErrorMessage('birthdate'),
+                  'border-gray-200': !getErrorMessage('birthdate')
+                  }"
+
+                />
+              </div>
+                <p
+                *ngIf="getErrorMessage('birthdate')"
+                class="text-xs text-red-600 mt-2"
+                id="birthdate-error"
+                 >
+                {{ getErrorMessage('birthdate') }}
+                </p>
+              </div>
+              </div>
+
+
+                <div>
+                <label for="numero" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Street number</label>
+                <div class="relative">
+                  <input type="text"
+                   formControlName="numero"
+                   name="numero"
+                   id="numero"
+                   class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+
+                   [ngClass]="{
+                  'border-red-500': getErrorMessage('numero'),
+                  'border-gray-200': !getErrorMessage('numero')
+                  }"
+
+                   />
+                </div>
+                <p
+                *ngIf="getErrorMessage('numero')"
+                class="text-xs text-red-600 mt-2"
+                id="numero-error"
+                 >
+                {{ getErrorMessage('numero') }}
+                </p>
+              </div>
+
+
+               <div>
+                <label for="street" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Street</label>
+                <div class="relative">
+                  <input type="text"
+                   formControlName="street"
+                   name="street"
+                   id="street"
+                   class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+
+                   [ngClass]="{
+                  'border-red-500': getErrorMessage('street'),
+                  'border-gray-200': !getErrorMessage('street')
+                  }"
+
+                   />
+                </div>
+                <p
+                *ngIf="getErrorMessage('street')"
+                class="text-xs text-red-600 mt-2"
+                id="street-error"
+                 >
+                {{ getErrorMessage('street') }}
+                </p>
+              </div>
+
+                 <div>
+                <label for="town" class="block text-sm font-bold ml-1 mb-2 dark:text-white">City</label>
+                <div class="relative">
+                  <input type="text"
+                  formControlName="town"
+                  name="town"
+                   id="town"
+                   class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                   [ngClass]="{
+                  'border-red-500': getErrorMessage('town'),
+                  'border-gray-200': !getErrorMessage('town')
+                  }"
+
+                  />
+                </div>
+                <p
+                 *ngIf="getErrorMessage('town')"
+                class="text-xs text-red-600 mt-2"
+                id="town-error"
+                 >
+                {{ getErrorMessage('town') }}
+               </p>
+              </div>
+
+
+                <div>
+                <label for="zipCode" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Zip Code</label>
+                <div class="relative">
+                  <input type="text"
+                   formControlName="zipCode"
+                   name="zipCode"
+                   id="zipCode"
+                   class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                  [ngClass]="{
+                  'border-red-500': getErrorMessage('zipCode'),
+                  'border-gray-200': !getErrorMessage('zipCode')
+                  }"
+
+                   />
+                  </div>
+                 <p
+                *ngIf="getErrorMessage('zipCode')"
+                class="text-xs text-red-600 mt-2"
+                id="zip-error"
+                 >
+                {{ getErrorMessage('zipCode') }}
+                </p>
+              </div>
+
+
+               <div>
+                <label for="country" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Country</label>
+                <div class="relative">
+                  <input type="text"
+                  formControlName="country"
+                  name="country"
+                  id="country"
+                  class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                  [ngClass]="{
+                  'border-red-500': getErrorMessage('country'),
+                  'border-gray-200': !getErrorMessage('country')
+               }"
+
+                   />
+                  </div>
+                <p
+                *ngIf="getErrorMessage('country')"
+                class="text-xs text-red-600 mt-2"
+                id="country-error"
+                 >
+                {{ getErrorMessage('country') }}
+                </p>
+              </div>
+
+
+
+              <div>
+
+                <label for="email" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Email address</label>
+                <div class="relative">
+                  <input type="email"
+                   formControlName="email"
+                    name="email"
+                     id="email"
+                     class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                    [ngClass]="{
+                      'border-red-500': getErrorMessage('email'),
+                      'border-gray-200': !getErrorMessage('email')
+                    }"
+                   />
+
+                    </div>
+                <p
+                *ngIf="getErrorMessage('email')"
+                class="text-xs text-red-600 mt-2"
+                id="email-error"
+                 >
+                {{ getErrorMessage('email') }}
+                </p>
+              </div>
+
+               <div>
+                <label for="username" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Username</label>
+                <div class="relative">
+                  <input type="text"
+                  formControlName="username"
+                  name="username"
+                  id="username"
+                  class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="name-error"
+                  [ngClass]="{
+                'border-red-500': getErrorMessage('username'),
+                'border-gray-200': !getErrorMessage('username')
+                  }"
+
+                />
+                </div>
+               <p *ngIf="getErrorMessage('username')" class="text-xs text-red-600 mt-1">
+             {{ getErrorMessage('username') }}
+                 </p>
+              </div>
+
+                  <div>
+                <label for="password" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Password</label>
+                <div class="relative">
+                  <input type="password"
+                  formControlName="password"
+                  name="password"
+                  id="password"
+                  class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                  [ngClass]="{
+                    'border-red-500': getErrorMessage('password'),
+                    'border-gray-200': !getErrorMessage('password')
+                  }"
+                 />
+                </div>
+                <p
+                 *ngIf="getErrorMessage('password')"
+                class="text-xs text-red-600 mt-2"
+                id="password-error"
+                 >
+                {{ getErrorMessage('password') }}
+                </p>
+              </div>
+
+                <div>
+            <label for="message" class="block mb-2.5 text-sm font-medium text-heading">Some words about you</label>
+            <textarea id="message" formControlName="message" rows="4"
+            class="bg-neutral-secondary-medium border border-default-medium
+            text-heading text-sm rounded-base focus:ring-brand focus:border-brand block
+            w-full p-3.5 shadow-xs placeholder:text-body" placeholder="Write your thoughts here..."
+            [ngClass]="{
+            'border-red-500': getErrorMessage('message'),
+            'border-gray-200': !getErrorMessage('message')
+                  }"></textarea>
+          <p
+                 *ngIf="getErrorMessage('message')"
+                class="text-xs text-red-600 mt-2"
+                id="message-error"
+                 >
+                {{ getErrorMessage('message') }}
+                </p>
+            </div>
+
+                      <div>
+                 <div class="text-xs text-gray-700">Entrez les centres d'interets separé par un tiret avec ou sans espaces</div>
+                <label for="interest" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Centres d'interets</label>
+                <div class="relative">
+
+                  <input type="interest"
+                    name="interest"
+                   formControlName="interest"
+                    id="interest"
+                    class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error"
+                    [ngClass]="{
+                      'border-red-500': getErrorMessage('interest'),
+                      'border-gray-200': !getErrorMessage('interest')
+                    }"
+                      aria-describedby="interest-error"
+                  />
+
+                          <p
+                 *ngIf="getErrorMessage('interest')"
+                class="text-xs text-red-600 mt-2"
+                id="message-error"
+                 >
+                {{ getErrorMessage('interest') }}
+                </p>
+                  </div>
+
+
+              </div>
+
+              <button type="submit"
+               class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+               Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+  </div>

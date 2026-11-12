@@ -1,0 +1,23 @@
+<section class="grid grid-cols-2 gap-4 p-3 sm:grid-cols-3 lg:grid-cols-4">
+  @for (img of images(); track img.id) {
+    <div (click)="onClick(img.id)">
+      <figure class="overflow-hidden rounded-lg">
+        <!-- L'image ne tente de charger QUE sur le client (navigateur) -->
+        @if (isBrowser()) {
+          <img
+            class="h-48 w-full object-cover"
+            [src]="'/api/image/' + img.id + '?v=' + imageVersion()"
+            [alt]="img.filename"
+            loading="lazy"
+          />
+        } @else {
+          <!-- Optionnel : Un squelette/placeholder pendant le rendu SSR -->
+          <div class="h-48 w-full bg-gray-200 animate-pulse"></div>
+        }
+        <figcaption class="truncate p-2">{{ img.filename }}</figcaption>
+      </figure>
+    </div>
+  } @empty {
+    <p>Aucune image à afficher.</p>
+  }
+</section>

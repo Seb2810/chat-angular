@@ -1,0 +1,81 @@
+<!-- Remplacement du @for par un @if pour vérifier si le profil est chargé -->
+@if (profil(); as data) {
+  <div class="text-red-500 font-semibold mt-5 mb-5 ml-5">Profil > User</div>
+
+   <div class="flex flex-col-reverse lg:flex-row items-start justify-center w-3/4 mx-auto mt-5
+   border-8 border-red-600 rounded-lg shadow-lg p-5">
+
+  <div class="items-center space-y-4 w-full lg:min-w-[400px] xl:min-w-[500px] 2xl:min-w-[600px]">
+
+    <div class="w-full max-w-3xl" id="mainImg">
+            @if (data.documents && data.documents.length > 0) {
+
+        <img
+        class="w-full rounded-lg object-cover cursor-pointer hover:opacity-80"
+        [src]="'/api/image/' + (selectImage() ?? data.documents[0].id)"
+          [alt]="data.documents[0].filename"
+          loading="lazy"
+        />
+      }
+       @else {
+        <!-- Image par défaut si aucun document trouvé -->
+        <div class="w-full rounded-lg">Aucune image</div>
+      }
+
+          </div>
+
+        <div class="grid grid-cols-4 max-w-3xl gap-4" id="thumbnail-container">
+
+           @if (data.documents && data.documents.length > 0) {
+
+            @for (doc of data.documents; track doc.id) {
+  <a (click)="showImage(doc.id)">
+    <img
+      class="thumb rounded-lg md:h-24 h-14 object-cover cursor-pointer hover:opacity-80"
+      [src]="'/api/image/' + doc.id"
+      [alt]="doc.filename"
+      loading="lazy"
+    />
+  </a>
+}
+
+      }
+       @else {
+        <!-- Image par défaut si aucun document trouvé -->
+        <div class="thumb rounded-lg md:h-24 h-14 object-cover cursor-pointer hover:opacity-80">Aucune image</div>
+      }
+
+
+        </div>
+    </div>
+<div class="items-center ml-6">
+
+<div class="bg-gradient-to-r from-red-600 via-rose-400 to-pink-500 inline-block text-transparent bg-clip-text
+            text-2xl lg:text-6xl md:text-4xl tracking-tight font-bold  mb-5"> About me </div>
+
+            <p class="text-md lg:text-2xl md:text-xl"> <b> Pseudo </b> : {{ data.name }}</p>
+
+            <p class="text-md lg:text-2xl md:text-xl"> <b> Activate </b> : {{ data.isActive }}</p>
+
+
+
+   @if (data.info && data.info.length > 0) {
+
+      <p class="text-md lg:text-2xl md:text-xl"> <b> Country </b>: {{ data.info[0].country }}</p>
+
+      <p class="text-md lg:text-2xl md:text-xl"> <b> Birthdate </b> :{{ data.info[0].birthdate | date:'dd/MM/yyyy':'+0000' }}</p>
+
+    <p class="text-md lg:text-2xl md:text-xl"> <b> Description </b>: {{ data.info[0].words }}</p>
+
+     <p class="text-md lg:text-2xl md:text-xl"> <b> Centres d'interêts </b> : {{ data.info[0].interest }}</p>
+   }@else {
+        <!-- Image par défaut si aucun document trouvé -->
+        <div class="h-full w-full bg-gray-200 flex items-center justify-center">Aucune données supplementaires</div>
+      }
+ </div>
+
+
+</div>
+} @else {
+  <div class="text-center mt-20">Chargement du profil...</div>
+}

@@ -1,0 +1,268 @@
+<div class="flex h-screen overflow-hidden bg-gray-100">
+
+  <!-- ===================================================== -->
+  <!-- SIDEBAR UTILISATEURS -->
+  <!-- ===================================================== -->
+  <aside class="w-64 shrink-0 border-r border-gray-200 bg-white">
+
+    <!-- HEADER -->
+    <div class="border-b border-gray-200 p-4">
+      <h2 class="text-lg font-bold text-gray-800">
+        Utilisateurs en ligne
+      </h2>
+      <p class="mt-1 text-xs text-gray-400">
+        Cliquez sur un utilisateur pour discuter
+      </p>
+    </div>
+
+    <!-- UTILISATEURS -->
+    <div class="overflow-y-auto p-3">
+      @for (user of chat.onlineUsers(); track user.id) {
+        @if (user.id !== currentUserId) {
+          <div
+            class="mb-2 flex w-full items-center gap-3 rounded-lg p-3 text-left transition hover:bg-gray-100"
+
+          >
+            <!-- STATUT -->
+            <span class="h-3 w-3 shrink-0 rounded-full bg-green-500"></span>
+
+            @if (user.avatarUrl) {
+                 <a  [routerLink]="['/profile' , user.id]" target="_blank" rel="noopener" >
+              <img
+                [src]="user.avatarUrl"
+                [alt]="'Photo de profil de ' + user.username"
+                class="h-10 w-10 shrink-0 rounded-full object-cover"
+              />
+                     </a>
+            } @else {
+              <span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-600"
+                aria-hidden="true"
+              >
+                 <a  [routerLink]="['/profile' , user.id]" target="_blank" rel="noopener" >
+                {{ user.username.charAt(0).toUpperCase() }}
+                 </a>
+              </span>
+            }
+
+            <!-- NOM -->
+            <button class="truncate text-sm font-medium text-gray-700"
+             (click)="openPrivateChat(user.id)"
+            >
+              {{ user.username }}
+            </button>
+          </div>
+        }
+      }
+    </div>
+  </aside>
+
+  <!-- ===================================================== -->
+  <!-- ZONE PRINCIPALE -->
+  <!-- ===================================================== -->
+  <main class="flex min-w-0 flex-1 flex-col">
+
+    <!-- =================================================== -->
+    <!-- BARRE DES ONGLETS -->
+    <!-- =================================================== -->
+    <div class="flex shrink-0 items-center gap-1 overflow-x-auto border-b border-gray-200 bg-white px-3">
+
+      <!-- ONGLET MAIN -->
+      <button
+        type="button"
+        class="border-b-2 px-4 py-3 text-sm font-medium transition"
+        [class.border-blue-500]="activeTab() === 'main'"
+        [class.text-blue-600]="activeTab() === 'main'"
+        [class.border-transparent]="activeTab() !== 'main'"
+        [class.text-gray-500]="activeTab() !== 'main'"
+        (click)="activeTab.set('main'); selectedUserId.set(null)"
+      >
+        Main
+      </button>
+
+      <!-- ONGLET GENERAL -->
+      <button
+        type="button"
+        class="border-b-2 px-4 py-3 text-sm font-medium transition"
+        [class.border-blue-500]="activeTab() === 'general'"
+        [class.text-blue-600]="activeTab() === 'general'"
+        [class.border-transparent]="activeTab() !== 'general'"
+        [class.text-gray-500]="activeTab() !== 'general'"
+        (click)="activeTab.set('general'); selectedUserId.set(null)"
+      >
+        General
+      </button>
+
+      <!-- ONGLETS PRIVÉS -->
+      @for (tab of privateTabs(); track tab.userId) {
+        <div
+          class="flex shrink-0 items-center border-b-2"
+          [class.border-blue-500]="activeTab() === tab.userId"
+          [class.border-transparent]="activeTab() !== tab.userId"
+        >
+          <!-- NOM DE L'ONGLET -->
+          <button
+            type="button"
+            class="px-3 py-3 text-sm font-medium transition"
+            [class.text-blue-600]="activeTab() === tab.userId"
+            [class.text-gray-500]="activeTab() !== tab.userId"
+            (click)="selectPrivateTab(tab.userId)"
+          >
+            {{ tab.username }}
+          </button>
+
+          <!-- FERMER -->
+          <button
+            type="button"
+            class="mr-1 rounded p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+            (click)="closePrivateTab(tab.userId, $event)"
+            aria-label="Fermer la conversation"
+          >
+            ×
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- CONTENU -->
+    <!-- ===================================================== -->
+    <div class="flex min-h-0 flex-1 flex-col">
+
+      <!-- ================================================= -->
+      <!-- MAIN -->
+      <!-- ================================================= -->
+      @if (activeTab() === 'main') {
+        <div class="flex flex-1 items-center justify-center">
+          <div class="text-center">
+            <h1 class="text-2xl font-bold text-gray-800">
+              Bienvenue dans le chat
+            </h1>
+            <p class="mt-2 text-gray-500">
+              Sélectionnez le chat général ou un utilisateur.
+            </p>
+          </div>
+        </div>
+      }
+
+      <!-- ================================================= -->
+      <!-- CHAT GÉNÉRAL -->
+      <!-- ================================================= -->
+      @if (activeTab() === 'general') {
+        <div class="flex min-h-0 flex-1 flex-col">
+
+          <!-- HEADER -->
+          <div class="border-b border-gray-200 bg-white p-4">
+            <h2 class="font-bold text-gray-800">
+              Chat général
+            </h2>
+          </div>
+
+          <!-- MESSAGES -->
+          <div class="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
+            @for (message of messages(); track message.id) {
+              <div class="rounded-lg bg-white p-3 shadow-sm">
+                <div class="flex items-center justify-between gap-4">
+                  <span class="font-semibold text-gray-800">
+                    {{ message.username }}
+                  </span>
+                  <span class="text-xs text-gray-400">
+                    {{ message.createdAt | date:'HH:mm' }}
+                  </span>
+                </div>
+                <p class="mt-1 text-gray-700">
+                  {{ message.content }}
+                </p>
+              </div>
+            }
+          </div>
+
+          <!-- INPUT -->
+          <form
+            class="flex gap-2 border-t border-gray-200 bg-white p-4"
+            (ngSubmit)="sendGeneralMessage()"
+          >
+            <input
+              type="text"
+              name="generalMessage"
+              [(ngModel)]="generalMessage"
+              placeholder="Écrire un message..."
+              class="min-w-0 flex-1 rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500"
+            />
+            <button
+              type="submit"
+              class="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white hover:bg-blue-700"
+            >
+              Envoyer
+            </button>
+          </form>
+        </div>
+      }
+
+      <!-- ================================================= -->
+      <!-- CHAT PRIVÉ -->
+      <!-- ================================================= -->
+      @if (activeTab() !== 'main' && activeTab() !== 'general' && selectedUserId()) {
+        <div class="flex min-h-0 flex-1 flex-col">
+
+          <!-- HEADER CHAT PRIVÉ -->
+          <div class="border-b border-gray-200 bg-white p-4">
+            <div class="flex items-center gap-3">
+              <!-- STATUT -->
+              <span class="h-3 w-3 rounded-full bg-green-500"></span>
+
+              <!-- NOM -->
+              <h2 class="font-bold text-gray-800">
+                {{ getPrivateUsername(selectedUserId()!) }}
+              </h2>
+            </div>
+          </div>
+
+          <!-- MESSAGES PRIVÉS -->
+          <div class="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
+            @for (message of privateMessagesOfActiveChat(); track message.id) {
+              <div
+                class="flex"
+                [class.justify-end]="message.fromUserId === currentUserId"
+                [class.justify-start]="message.fromUserId !== currentUserId"
+              >
+                <div
+                  class="max-w-[70%] rounded-lg px-4 py-2"
+                  [class.bg-blue-600]="message.fromUserId === currentUserId"
+                  [class.text-white]="message.fromUserId === currentUserId"
+                  [class.bg-white]="message.fromUserId !== currentUserId"
+                  [class.text-gray-800]="message.fromUserId !== currentUserId"
+                >
+                  <p>{{ message.text }}</p>
+                  <div class="mt-1 text-right text-xs opacity-70">
+                    {{ message.createdAt | date:'HH:mm' }}
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- INPUT MESSAGE PRIVÉ -->
+          <form
+            class="flex gap-2 border-t border-gray-200 bg-white p-4"
+            (ngSubmit)="sendPrivateMessage(selectedUserId()!)"
+          >
+            <input
+              type="text"
+              name="privateMessage"
+              [(ngModel)]="privateMessage"
+              placeholder="Écrire un message..."
+              class="min-w-0 flex-1 rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500"
+            />
+            <button
+              type="submit"
+              class="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white hover:bg-blue-700"
+            >
+              Envoyer
+            </button>
+          </form>
+        </div>
+      }
+    </div>
+  </main>
+</div>

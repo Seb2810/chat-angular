@@ -1,0 +1,136 @@
+<div>
+<form
+  [formGroup]="userForm"
+  (ngSubmit)="submit()"
+  class="max-w-md space-y-4"
+>
+
+  <!-- NAME -->
+
+  <div>
+
+    <label for="name">
+      Nom
+    </label>
+
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      class="w-full rounded border p-2"
+    />
+
+    @if (
+      userForm.controls.name.touched &&
+      userForm.controls.name.invalid
+    ) {
+
+      <p class="text-red-500">
+        Le nom est obligatoire.
+      </p>
+
+    }
+
+  </div>
+
+
+  <!-- EMAIL -->
+
+  <div>
+
+    <label for="email">
+      Email
+    </label>
+
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      class="w-full rounded border p-2"
+    />
+
+    @if (
+      userForm.controls.email.touched &&
+      userForm.controls.email.hasError('required')
+    ) {
+
+      <p class="text-red-500">
+        L'email est obligatoire.
+      </p>
+
+    }
+
+    @if (
+      userForm.controls.email.touched &&
+      userForm.controls.email.hasError('email')
+    ) {
+
+      <p class="text-red-500">
+        L'email n'est pas valide.
+      </p>
+
+    }
+
+  </div>
+
+  <!-- Password -->
+
+  <div>
+
+    <label for="password">
+      Password
+    </label>
+
+    <input
+      id="password"
+      type="text"
+      formControlName="password"
+      class="w-full rounded border p-2"
+    />
+
+    @if (
+      userForm.controls.password.touched &&
+      userForm.controls.password.invalid
+    ) {
+
+      <p class="text-red-500">
+        Le password est obligatoire.
+      </p>
+
+    }
+
+  </div>
+
+  <!-- IMAGE -->
+
+  <div>
+
+    <label for="imageUrl">
+      URL de l'image
+      <span class="text-gray-500">
+        (optionnel)
+      </span>
+    </label>
+
+    <input
+      id="imageUrl"
+      type="text"
+      formControlName="imageUrl"
+      placeholder="https://..."
+      class="w-full rounded border p-2"
+    />
+
+  </div>
+
+
+  <!-- SUBMIT -->
+
+  <button
+    type="submit"
+    class="rounded bg-blue-600 px-4 py-2 text-white"
+  >
+    Créer l'utilisateur
+  </button>
+
+</form>
+</div>

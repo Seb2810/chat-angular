@@ -1,0 +1,24 @@
+<!-- dashboard.component.html -->
+ <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white text-gray-800 mt-8 mb-8 p-6 rounded-lg">
+@if (currentUser && currentUser.role === 'ADMIN') {
+  <div class="dashboard-container">
+    <h1>Tableau de bord Administrateur</h1>
+    <p>Bienvenue, {{ currentUser.email }}</p>
+
+    <!-- Zone sensible -->
+    <div class="admin-actions">
+           <button class="bg-white text-red-600 px-8 py-4 rounded-lg font-semibold
+                    hover:bg-red-500 hover:text-white transform hover:scale-105 transition-all duration-300
+                    shadow-lg flex items-center justify-center text-center">
+                        <i data-lucide="rocket"></i>
+           <a routerLink="/users" routerLinkActive="text-black font-bold">Liste des utilisateurs</a>
+      </button>
+    </div>
+  </div>
+} @else {
+  <!-- Optionnel : Un spinner de chargement le temps que AuthState.init() réponde -->
+  <div class="loading">Vérification des droits d'accès...</div>
+}
+   </div>
+  </div>

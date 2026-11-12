@@ -1,0 +1,69 @@
+<div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white text-gray-800 mt-8 mb-8 p-6 rounded-lg">
+      @if (currentUser && currentUser.role === 'ADMIN') {
+
+<form  [formGroup]="userForm" (ngSubmit)="submit() "class="max-w-md space-y-4">
+
+  <!-- NAME -->
+
+  <div>
+
+    <label for="name"> Nom</label>
+
+    <input id="name" type="text" formControlName="name" class="w-full rounded border p-2"/>
+
+    @if (
+      userForm.controls.name.touched &&
+      userForm.controls.name.invalid
+    ) {
+
+      <p class="text-red-500"> Le nom est obligatoire.</p>
+
+    }
+
+  </div>
+
+
+  <!-- EMAIL -->
+
+  <div>
+
+    <label for="email"> Email </label>
+
+    <input id="email" type="email"  formControlName="email" class="w-full rounded border p-2"/>
+
+    @if (
+      userForm.controls.email.touched &&
+      userForm.controls.email.hasError('required')
+    ) {
+
+      <p class="text-red-500"> L'email est obligatoire. </p>
+
+    }
+
+    @if (
+      userForm.controls.email.touched &&
+      userForm.controls.email.hasError('email')
+    ) {
+
+      <p class="text-red-500"> L'email n'est pas valide.</p>
+
+    }
+
+  </div>
+
+
+
+  <!-- SUBMIT -->
+
+  <button type="submit" class="rounded bg-red-600 px-4 py-2 text-white">
+    Update utilisateur
+  </button>
+
+</form>
+} @else {
+  <!-- Optionnel : Un spinner de chargement le temps que AuthState.init() réponde -->
+  <div class="loading">Vérification des droits d'accès...</div>
+}
+</div>
+  </div>

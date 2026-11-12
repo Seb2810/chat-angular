@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String?    @unique
+  name      String?
+  password  String?
+  role      Role       @default(USER)
+  deletedAt DateTime?   // 👈 soft delete
+  createdAt   DateTime @default(now())
+  isActive  Boolean     @default(true) // blocage login
+  verified  Boolean     @default(false)
+  info      Info[]
+  images    Image[]
+  sessions  Session[]
+  documents Document[]
+}
+
+enum Role{
+  ADMIN
+  USER
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    Int @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+}
+
+
+model Info{
+
+id          Int      @id @default(autoincrement())
+civility    String
+name        String
+surname     String
+numero      String
+street      String
+town        String
+zipCode     String
+country     String
+birthdate   DateTime?
+interest    String[]
+sex         String?
+words       String?  @db.Text
+userId     Int @unique
+user       User @relation(fields: [userId], references: [id], onDelete: Cascade)
+createdAt   DateTime @default(now())
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  url       String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  mimetype  String
+  fileData  Bytes
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

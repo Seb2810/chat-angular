@@ -1,0 +1,55 @@
+<div class="text-red-500 ml-2 mt-4 mb-4">
+  User-Board > Profil > Upload-images
+</div>
+<div class="upload-container mt-6 p-4 max-w-md mx-auto border border-red-500 rounded-xl space-y-4">
+<p>Vous pouvez uploader au maximum 3 images,  si vous uploadez une image de plus celà remplacera
+  une image existente.<br/>
+  Cliquez sur l'image pour la supprimer.
+</p>
+  <input
+    type="file"
+    #fileInput
+    (change)="onFileSelected($event)"
+    style="display: none;"
+  />
+
+  <div class="flex items-center gap-3">
+    <button (click)="fileInput.click()" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+      Choisir un fichier
+    </button>
+
+    @if (selectedFile) {
+      <span class="text-sm text-gray-600 truncate max-w-[200px]">
+        {{ selectedFile.name }}
+      </span>
+    }
+  </div>
+
+  @if (currentUser) {
+    <app-show></app-show>
+  }
+
+  @if (selectedFile) {
+    <button (click)="uploadFile()" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+      Uploader
+    </button>
+  }
+
+  <!-- 👈 ZONE DE LA BARRE DE PROGRESSION -->
+  @if (uploadProgress !== null) {
+    <div class="w-full space-y-1">
+      <div class="flex justify-between text-sm font-medium text-indigo-600">
+        <span>Téléchargement...</span>
+        <span>{{ uploadProgress }}%</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+        <!-- Attribution de la largeur dynamique en fonction du pourcentage -->
+        <div
+          class="bg-indigo-600 h-2.5 rounded-full transition-all duration-200"
+          [style.width.%]="uploadProgress">
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

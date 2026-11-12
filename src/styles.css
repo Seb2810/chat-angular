@@ -1,0 +1,15 @@
+@import "tailwindcss";/* You can add global styles to this file, and also import other style files */
+@source "../node_modules/flowbite-angular";
+@source "../node_modules/flowbite-datepicker";
+
+
+/* 2. Correctif pour la transparence et la superposition du Datepicker */
+.datepicker {
+  background-color: white !important; /* Force le fond opaque en mode clair */
+  z-index: 50 !important;             /* Passe au-dessus de tous les autres inputs */
+}
+
+/* Correctif optionnel si vous gérez le mode sombre (dark mode) */
+.dark .datepicker {
+  background-color: #374151 !important; /* bg-gray-700 pour le mode sombre */
+}
