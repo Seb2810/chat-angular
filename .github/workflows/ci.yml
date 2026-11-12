@@ -1,6 +1,7 @@
 
 name: Angular SSR CI
 
+# Déclenchement automatique
 on:
   push:
     branches:
@@ -12,6 +13,7 @@ on:
       - main
       - develop
 
+# Permissions GitHub Actions
 permissions:
   contents: read
 
@@ -21,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Récupération du code
+      # 1. Récupération du code source
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -39,16 +41,22 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
-      # 4. Installation des dépendances
+      # 4. Vérification des versions
+      - name: Check versions
+        run: |
+          node --version
+          pnpm --version
+
+      # 5. Installation des dépendances
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 5. Génération du client Prisma
+      # 6. Génération du client Prisma
       - name: Generate Prisma Client
         run: pnpm run prisma:generate
         env:
           DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
 
-      # 6. Compilation Angular SSR
-      - name: Build application
+      # 7. Compilation Angular SSR
+      - name: Build Angular SSR
         run: pnpm run build
