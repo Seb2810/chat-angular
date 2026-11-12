@@ -1,7 +1,6 @@
 
 name: Angular SSR CI
 
-# Déclenchement automatique
 on:
   push:
     branches:
@@ -13,6 +12,9 @@ on:
       - main
       - develop
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build Angular SSR
@@ -23,17 +25,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Installation de Node.js
+      # 2. Installation de pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.0.0
+
+      # 3. Installation de Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
+          node-version: 22.23.3
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      # 3. Installation des dépendances
+      # 4. Installation des dépendances
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      # 4. Compilation Angular SSR
+      # 5. Génération du client Prisma
+      - name: Generate Prisma Client
+        run: pnpm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+
+      # 6. Compilation Angular SSR
       - name: Build application
-        run: npm run build
+        run: pnpm run build
