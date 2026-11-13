@@ -28,7 +28,7 @@ export class NavbarComponent {
 
   private router = inject(Router);
 
-  constructor(public auth: AuthService) {
+  constructor() {
     effect((onCleanup) => {
       const user = this.authState.user();
       const userId = Number(user?.id);
