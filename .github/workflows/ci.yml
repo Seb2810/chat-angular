@@ -60,3 +60,7 @@ jobs:
       # 7. Compilation Angular SSR
       - name: Build Angular SSR
         run: pnpm run build
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+          JWT_SECRET: ci-only-secret-for-angular-build-not-for-production
+
